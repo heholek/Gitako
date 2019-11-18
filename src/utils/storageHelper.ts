@@ -1,4 +1,13 @@
-const localStorage = browser.storage.local
+import { browserReady } from './features'
+
+function noop(...args: any[]): any {}
+
+const localStorage = browserReady
+  ? browser.storage.local
+  : {
+      get: noop,
+      set: noop,
+    }
 
 export function get(mapping: string[] | null): Promise<any> {
   return localStorage.get(mapping || undefined)
